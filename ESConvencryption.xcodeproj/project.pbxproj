@@ -10,6 +10,7 @@
 		790422FF1B9F359A00189B2E /* ESConvencryption.h in Headers */ = {isa = PBXBuildFile; fileRef = 790422FE1B9F359A00189B2E /* ESConvencryption.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		790423061B9F359A00189B2E /* ESConvencryption.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 790422FB1B9F359A00189B2E /* ESConvencryption.framework */; settings = {ASSET_TAGS = (); }; };
 		7904230B1B9F359A00189B2E /* ESConvencryptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7904230A1B9F359A00189B2E /* ESConvencryptionTests.swift */; };
+		790423161B9F3D9D00189B2E /* ESCEnDecrypter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790423151B9F3D9D00189B2E /* ESCEnDecrypter.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		790423051B9F359A00189B2E /* ESConvencryptionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ESConvencryptionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7904230A1B9F359A00189B2E /* ESConvencryptionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ESConvencryptionTests.swift; sourceTree = "<group>"; };
 		7904230C1B9F359A00189B2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		790423151B9F3D9D00189B2E /* ESCEnDecrypter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ESCEnDecrypter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				790422FE1B9F359A00189B2E /* ESConvencryption.h */,
+				790423151B9F3D9D00189B2E /* ESCEnDecrypter.swift */,
 				790423001B9F359A00189B2E /* Info.plist */,
 			);
 			path = ESConvencryption;
@@ -142,6 +145,7 @@
 		790422F21B9F359A00189B2E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "史翔新";
 				TargetAttributes = {
@@ -193,6 +197,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				790423161B9F3D9D00189B2E /* ESCEnDecrypter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +312,7 @@
 		790423101B9F359A00189B2E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -317,12 +323,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = net.crazism.ESConvencryption;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		790423111B9F359A00189B2E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -375,6 +383,7 @@
 				790423111B9F359A00189B2E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		790423121B9F359A00189B2E /* Build configuration list for PBXNativeTarget "ESConvencryptionTests" */ = {
 			isa = XCConfigurationList;
@@ -383,6 +392,7 @@
 				790423141B9F359A00189B2E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
