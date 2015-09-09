@@ -25,33 +25,34 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 import UIKit
 
 public struct ESCEnDecrypter {
-
-	let hashedUUID = UIDevice.currentDevice().identifierForVendor?.hash ?? 1
-	let intMask: Int
 	
-	public init(intMask: Int = 0xFFFF) {
-		self.intMask = intMask
+	private let hashedUUID = UIDevice.currentDevice().identifierForVendor?.hash ?? 1
+	private let bitMask: Int
+	
+	public init(bitMaskDigits: Int = 16) {
+		let bitMask = [Int](0 ..< bitMaskDigits).reduce(0) { $0 + (1 << $1) }
+		self.bitMask = bitMask
 	}
 	
-	public func encrypt(plainInt: Int) -> Int? {
+	public func encrypt(plainInt: Int, withAdditionalIdentifier identifier: Int = 1) -> Int? {
 		
-		guard (plainInt & self.intMask) == plainInt else {
+		guard (plainInt & self.bitMask) == plainInt else {
 			return nil
 		}
 		
-		let hashedInt = (self.hashedUUID &* plainInt).description.hash
-		let hashMask = ~self.intMask
+		let hashedInt = (self.hashedUUID &* identifier &* plainInt).description.hash
+		let hashMask = ~self.bitMask
 		let encryptedInt = (hashedInt & hashMask) + plainInt
 		
 		return encryptedInt
 		
 	}
 	
-	public func decrypt(encryptedInt: Int) -> Int? {
+	public func decrypt(encryptedInt: Int, withAdditionalIdentifier identifier: Int = 1) -> Int? {
 		
-		let plainInt = encryptedInt & self.intMask
+		let plainInt = encryptedInt & self.bitMask
 		
-		guard self.encrypt(plainInt) == encryptedInt else {
+		guard self.encrypt(plainInt, withAdditionalIdentifier: identifier) == encryptedInt else {
 			return nil
 			
 		}
