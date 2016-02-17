@@ -33,6 +33,12 @@ import UIKit
 /// - Parameter bitMaskDigit: The number of digits of the bit mask. Default value is 16, which generates the mask of 0xFFFF
 public struct ESCEnDecrypter {
 	
+	/// Method Errors.
+	enum Error: ErrorType {
+		case IntValueTooBigToEncrypt(plainInt: Int, bitMask: Int)
+		case InvalidValue(value: Int)
+	}
+	
 	private let hashedUUID = UIDevice.currentDevice().identifierForVendor?.hash ?? 1
 	private let bitMask: Int
 	
@@ -50,11 +56,13 @@ public struct ESCEnDecrypter {
 	///
 	/// - Parameter identifier: An additional identifier for encrypting data. You may set different identifiers for different parameters you're encrypting so that the same value for different parameter can get a different encrypted value. Default identifier value is 1.
 	///
-	/// - Returns: The encrypted Int value, or nil if the plainInt is not able to get the same value after applying the bit mask.
-	public func encrypt(plainInt: Int, withAdditionalIdentifier identifier: Int = 1) -> Int? {
+	/// - Throws: `Error.IntValueTooBigToEncrypt(plainInt: Int, bitMask: Int)` if the `plainInt` is greater than the `self.bitMask`.
+	///
+	/// - Returns: The encrypted Int value.
+	public func encrypt(plainInt: Int, withAdditionalIdentifier identifier: Int = 1) throws -> Int {
 		
 		guard (plainInt & self.bitMask) == plainInt else {
-			return nil
+			throw Error.IntValueTooBigToEncrypt(plainInt: plainInt, bitMask: self.bitMask)
 		}
 		
 		let hashedInt = (self.hashedUUID &* identifier &* plainInt).description.hash
@@ -69,16 +77,17 @@ public struct ESCEnDecrypter {
 	///
 	/// - Parameter plainInt: The input value you'd like to decrypt.
 	///
-	/// - Parameter identifier: An additional identifier for decrypting data, which should be the same as the one you used to encrypt it. Default identifier value is the same as encrypt() method's value which is 1.
+	/// - Parameter identifier: An additional identifier for decrypting data, which should be the same as the one you used to encrypt it. Default identifier value is the same as `encrypt` method's value which is 1.
 	///
-	/// - Returns: The decrypted Int value, or nil if the decrypter can't generate the same value as input value from the decrypted value which is considered as invalid value.
-	public func decrypt(encryptedInt: Int, withAdditionalIdentifier identifier: Int = 1) -> Int? {
+	/// - Throws: `Error.InvalidValue(value: Int)` if it can't re-encrypt the decrypted value to self, and other errors that `encrypt` may throw.
+	///
+	/// - Returns: The decrypted Int value.
+	public func decrypt(encryptedInt: Int, withAdditionalIdentifier identifier: Int = 1) throws -> Int {
 		
 		let plainInt = encryptedInt & self.bitMask
 		
-		guard self.encrypt(plainInt, withAdditionalIdentifier: identifier) == encryptedInt else {
-			return nil
-			
+		guard try self.encrypt(plainInt, withAdditionalIdentifier: identifier) == encryptedInt else {
+			throw Error.InvalidValue(value: encryptedInt)
 		}
 		
 		return plainInt
