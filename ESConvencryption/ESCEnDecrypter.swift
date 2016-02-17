@@ -31,7 +31,7 @@ import UIKit
 /// `let endecrypter = ESCEnDecrypter()` or `let endecrypter = ESCEnDecrypter(bitMaskDigit: 12)`
 ///
 /// - Parameter bitMaskDigit: The number of digits of the bit mask. Default value is 16, which generates the mask of 0xFFFF
-public struct ESCEnDecrypter {
+public struct EnDecrypter {
 	
 	/// Method Errors.
 	enum Error: ErrorType {
